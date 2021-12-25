@@ -1,15 +1,16 @@
-from response import response, UNAUTHORIZED
+import response
+
 
 class InvalidKey(Exception):
 
     def __init__(self, *args: object) -> None:
         super().__init__(*args)
 
-class KeyInfo(response):
+class KeyInfo(response.response):
 
     def __init__(self, resp) -> None:
         super().__init__(resp)
-        if self._response_http_code == UNAUTHORIZED:
+        if self._response_http_code == response.UNAUTHORIZED:
             raise InvalidKey(self.status.error_message)
         elif not self._request_successful:
             raise RuntimeError(self.status.error_message)
