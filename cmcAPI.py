@@ -61,5 +61,3 @@ def getWrapper():
     if __wrapper.wrapper:
         return __wrapper.wrapper
     raise NoWrapperYet()
-
-BTC = start().getCryptInfo(symbol="BTC").data[0]
