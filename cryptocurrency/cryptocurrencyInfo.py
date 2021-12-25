@@ -1,8 +1,8 @@
-import response
 from typing import Iterator, SupportsIndex
+import response
 
 
-class crypMap(response.response):
+class crypInfo(response.response):
 
     def __init__(self, resp) -> None:
         super().__init__(resp)
@@ -16,13 +16,16 @@ class _crypto:
         self.id = crypto_dict.get("id")
         self.name = crypto_dict.get("name")
         self.symbol = crypto_dict.get("symbol")
+        self.category = crypto_dict.get("category")
         self.slug = crypto_dict.get("slug")
-        self.is_active = crypto_dict.get("is_active")
-        self.status = crypto_dict.get("status")
-        self.first_historical_data = crypto_dict.get("first_historical_data")
-        self.last_historical_data = crypto_dict.get("last_historical_data")
+        self.logo = crypto_dict.get("logo")
+        self.description = crypto_dict.get("description")
+        self.date_added = crypto_dict.get("date_added")
+        self.notice = crypto_dict.get("notice")
+        self.tags = crypto_dict.get("tags")
         platform_dict = crypto_dict.get("platform")
         self.platform = _platform(platform_dict) if platform_dict else None
+        self.urls = _urls(crypto_dict.get("urls"))
 
 class _data:
 
@@ -43,3 +46,16 @@ class _platform:
         self.symbol = platform_dict.get("symbol")
         self.slug = platform_dict.get("slug")
         self.token_address = platform_dict.get("token_address")
+
+class _urls:
+
+    def __init__(self, urls_dict:dict) -> None:
+        self.website = urls_dict.get("website")
+        self.technical_doc = urls_dict.get("technical_doc")
+        self.explorer = urls_dict.get("explorer")
+        self.source_code = urls_dict.get("source_code")
+        self.message_board = urls_dict.get("message_board")
+        self.chat = urls_dict.get("chat")
+        self.announcement = urls_dict.get("announcement")
+        self.reddit = urls_dict.get("reddit")
+        self.twitter = urls_dict.get("twitter")
