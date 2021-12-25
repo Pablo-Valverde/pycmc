@@ -1,5 +1,5 @@
-from key import KeyInfo
-from cryptocurrency import cryptocurrencyInfo, cryptocurrencyMapData
+import key.KeyInfo
+import cryptocurrency.cryptocurrencyMapData
 from requests import Session
 
 
@@ -9,7 +9,7 @@ TEST_KEY = "b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c" #---- Sandbox key for coinmark
 
 SORT_BY_ID = "id"
 SORT_BY_CMC_RANK = "cmc_rank"
-
+AUX_DEFAULT = "platform,first_historical_data,last_historical_data,is_active"
 LISTING_STATUS_ACTIVE = "active"
 LISTING_STATUS_INACTIVE = "inactive"
 LISTING_STATUS_UNTRACKED = "untracked"
@@ -40,17 +40,11 @@ class __wrapper:
 
     def getKeyInfo(self):
         response = self.__get("/key/info")
-        return KeyInfo.KeyInfo(response)
+        return key.KeyInfo(response)
 
-    def getCryptoMap(self, listing_status = LISTING_STATUS_ACTIVE, start = 1, limit = None, sort = SORT_BY_ID, symbol = None, aux = "platform,first_historical_data,last_historical_data,is_active"):
+    def getCryptoMap(self, listing_status = LISTING_STATUS_ACTIVE, start = 1, limit = None, sort = SORT_BY_ID, symbol = None, aux = AUX_DEFAULT):
         response = self.__get("/cryptocurrency/map", listing_status = listing_status, start = start, limit = limit, sort = sort, symbol = symbol, aux = aux)
-        return cryptocurrencyMapData.crypMap(response)
-
-    def getCryptInfo(self, id = None, slug = None, symbol = None, address = None, aux = "urls,logo,description,tags,platform,date_added,notice"):
-        if not (id or slug or symbol or address):
-            raise RuntimeError("Must contain at least one of [id, symbol, slug, address]")
-        response = self.__get("/cryptocurrency/info", id = id, slug = slug, symbol = symbol, address = address, aux = aux)
-        return cryptocurrencyInfo.crypInfo(response)
+        return cryptocurrency.cryptocurrencyMapData.crypMap(response)
 
 def start(api_key:str = TEST_KEY, version = "v1"):
     api_key = str(api_key)
@@ -62,4 +56,6 @@ def getWrapper():
         return __wrapper.wrapper
     raise NoWrapperYet()
 
-BTC = start().getCryptInfo(symbol="BTC").data[0]
+crypto = start().getCryptoMap()
+for coin in crypto.data:
+    print("%s %s" % (coin.name, coin.id))
