@@ -107,6 +107,8 @@ class __wrapper:
                                     aux =                               "urls,logo,description,tags,platform,date_added,notice"
                                 ):
 
+        assert id or slug or symbol or address, "Atleast [id, slug, symbol or address] must be present"
+
         response = self.__get   (
                                     url = "/cryptocurrency/info", 
                                     id = id, 
@@ -117,69 +119,51 @@ class __wrapper:
                                 )
         return cmcresponse(response)
 
-    def getCryptLatestListing   (
-                                    self, 
-                                    start =                             1, 
-                                    limit =                             100, 
-                                    price_min =                         None, 
-                                    price_max =                         None, 
-                                    market_cap_min =                    None, 
-                                    market_cap_max =                    None, 
-                                    volume_24h_min =                    None, 
-                                    volume_24h_max =                    None, 
-                                    circulating_supply_min =            None, 
-                                    circulating_supply_max =            None, 
-                                    percent_change_24h_min =            None, 
-                                    percent_change_24h_max =            None, 
-                                    convert =                           None, 
-                                    convert_id =                        None, 
-                                    sort =                              LISTING_SORT_BY_MARKET_CAP, 
-                                    sort_dir =                          SORT_DIR_ASC, 
-                                    cryptocurrency_type =               CRYPTOCURRENCY_TYPE_ALL, 
-                                    tag =                               TAG_ALL, 
-                                    aux =                               "num_market_pairs,cmc_rank,date_added,tags,platform,max_supply,circulating_supply,total_supply"
-                                ):
-
-        response = self.__get   (
-                                    url = "/cryptocurrency/info",
-                                    start = start,
-                                    limit = limit,
-                                    price_min = price_min,
-                                    price_max = price_max,
-                                    market_cap_min = market_cap_min,
-                                    market_cap_max = market_cap_max,
-                                    volume_24h_min = volume_24h_min,
-                                    volume_24h_max = volume_24h_max,
-                                    circulating_supply_min = circulating_supply_min,
-                                    circulating_supply_max = circulating_supply_max,
-                                    percent_change_24h_min = percent_change_24h_min,
-                                    percent_change_24h_max = percent_change_24h_max,
-                                    convert = convert,
-                                    convert_id = convert_id,
-                                    sort = sort,
-                                    sort_dir = sort_dir,
-                                    cryptocurrency_type = cryptocurrency_type,
-                                    tag = tag,
-                                    aux = aux
-                                )
-        return cmcresponse(response)
-
-    def getCryptHistoricalListing(
+    def getCryptLatestQuotes    (
                                     self,
-                                    date =                              None,
-                                    start =                             None,
-                                    limit =                             None,
+                                    id =                                None,
+                                    slug =                              None,
+                                    symbol =                            None,
                                     convert =                           None,
                                     convert_id =                        None,
-                                    sort =                              None,
-                                    sort_dir =                          None,
-                                    cryptocurrency_type =               None,
-                                    aux =                               None
+                                    aux =                               "num_market_pairs,cmc_rank,date_added,tags,platform,max_supply,circulating_supply,total_supply,is_active,is_fiat",
+                                    skip_invalid =                      False
+                                ):
+
+        assert id or slug or symbol, "Atleast [id, slug or symbol] must be present"
+        
+        response = self.__get   (
+                                    url = "/cryptocurrency/quotes/latest",
+                                    id = id,
+                                    slug = slug,
+                                    symbol = symbol,
+                                    convert = convert,
+                                    convert_id = convert_id,
+                                    aux = aux,
+                                    skip_invalid = skip_invalid
+                                )
+
+        return cmcresponse(response)
+
+    def getCryptoCategories     (
+                                    self,
+                                    start =                             1,
+                                    limit =                             None,
+                                    id =                                None,
+                                    slug =                              None,
+                                    symbol =                            None
                                 ):
         
         response = self.__get   (
-                                    url = "",
+                                    url = "/cryptocurrency/categories",
+                                    start = start,
+                                    limit = limit,
+                                    id = id,
+                                    slug = slug,
+                                    symbol = symbol
                                 )
+
+        return cmcresponse(response)
 
 def start(api_key:str = TEST_KEY, version = "v1"):
     api_key = str(api_key)
@@ -191,4 +175,5 @@ def getWrapper():
         return __wrapper.wrapper
     raise NoWrapperYet()
 
-print(start().getCryptInfo(id=" "))
+aux = start().getCryptInfo(id=1).data
+pass
