@@ -1,5 +1,5 @@
-from key import KeyInfo
-from cryptocurrency import cryptocurrencyInfo, cryptocurrencyMapData
+import key
+import cryptocurrency
 from requests import Session
 
 
@@ -55,6 +55,7 @@ class __wrapper:
         self.api_key = api_key
         self.version = version
         self.testing = True if api_key == TEST_KEY else False
+
         self.__main_url = COINMARKETCAP_MAIN_SERVER if not self.testing else COINMARKETCAP_TEST_SERVER
         self.__headers = {
             "X-CMC_PRO_API_KEY": self.api_key
@@ -68,55 +69,99 @@ class __wrapper:
         return response
 
     def getKeyInfo(self):
-        response = self.__get("/key/info")
-        return KeyInfo.KeyInfo(response)
+        response = self.__get(
+                                url="/key/info"
+                            )
+        return key.Info(response)
 
     def getCryptoMap(
-                        self, listing_status = LISTING_STATUS_ACTIVE, start = 1, limit = None, 
-                        sort = MAP_SORT_BY_ID, symbol = None, aux = "platform,first_historical_data,last_historical_data,is_active"
+                        self, 
+                        listing_status =                    LISTING_STATUS_ACTIVE, 
+                        start =                             1, 
+                        limit =                             None, 
+                        sort =                              MAP_SORT_BY_ID, 
+                        symbol =                            None, 
+                        aux =                               "platform,first_historical_data,last_historical_data,is_active"
                     ):
 
-        response = self.__get("/cryptocurrency/map", listing_status = listing_status, start = start, limit = limit, sort = sort, symbol = symbol, aux = aux)
-        return cryptocurrencyMapData.crypMap(response)
+        response = self.__get(
+                                url="/cryptocurrency/map", 
+                                listing_status=listing_status, 
+                                start=start, 
+                                limit=limit, 
+                                sort=sort, 
+                                symbol=symbol, 
+                                aux=aux
+                            )
+        return cryptocurrency.Map(response)
 
     def getCryptInfo(
                         self, 
-                        id = None, 
-                        slug = None, 
-                        symbol = None, 
-                        address = None, 
-                        aux = "urls,logo,description,tags,platform,date_added,notice"
+                        id =                                None, 
+                        slug =                              None, 
+                        symbol =                            None, 
+                        address =                           None, 
+                        aux =                               "urls,logo,description,tags,platform,date_added,notice"
                     ):
-    
-        if not (id or slug or symbol or address):
-            raise RuntimeError("Must contain at least one of [id, symbol, slug, address]")
-        response = self.__get("/cryptocurrency/info", id = id, slug = slug, symbol = symbol, address = address, aux = aux)
-        return cryptocurrencyInfo.crypInfo(response)
+
+        response = self.__get(
+                                url="/cryptocurrency/info", 
+                                id=id, 
+                                slug=slug, 
+                                symbol=symbol, 
+                                address=address, 
+                                aux=aux
+                            )
+
+        return cryptocurrency.Info(response)
 
     def getCryptLatestListing(
                                 self, 
-                                start = 1, 
-                                limit = 100, 
-                                price_min = None, 
-                                price_max = None, 
-                                market_cap_min = None, 
-                                market_cap_max = None, 
-                                volume_24h_min = None, 
-                                volume_24h_max = None, 
-                                circulating_supply_min = None, 
-                                circulating_supply_max = None, 
-                                percent_change_24h_min = None, 
-                                percent_change_24h_max = None, 
-                                convert = None, 
-                                convert_id = None, 
-                                sort = LISTING_SORT_BY_MARKET_CAP, 
-                                sort_dir = SORT_DIR_ASC, 
-                                cryptocurrency_type = CRYPTOCURRENCY_TYPE_ALL, 
-                                tag = TAG_ALL, 
-                                aux = "num_market_pairs,cmc_rank,date_added,tags,platform,max_supply,circulating_supply,total_supply"
+                                start =                     1, 
+                                limit =                     100, 
+                                price_min =                 None, 
+                                price_max =                 None, 
+                                market_cap_min =            None, 
+                                market_cap_max =            None, 
+                                volume_24h_min =            None, 
+                                volume_24h_max =            None, 
+                                circulating_supply_min =    None, 
+                                circulating_supply_max =    None, 
+                                percent_change_24h_min =    None, 
+                                percent_change_24h_max =    None, 
+                                convert =                   None, 
+                                convert_id =                None, 
+                                sort =                      LISTING_SORT_BY_MARKET_CAP, 
+                                sort_dir =                  SORT_DIR_ASC, 
+                                cryptocurrency_type =       CRYPTOCURRENCY_TYPE_ALL, 
+                                tag =                       TAG_ALL, 
+                                aux =                       "num_market_pairs,cmc_rank,date_added,tags,platform,max_supply,circulating_supply,total_supply"
                             ):
 
-        raise NotImplementedError()
+        response = self.__get(
+                                url="/cryptocurrency/info",
+                                start=start,
+                                limit=limit,
+                                price_min=price_min,
+                                price_max=price_max,
+                                market_cap_min=market_cap_min,
+                                market_cap_max=market_cap_max,
+                                volume_24h_min=volume_24h_min,
+                                volume_24h_max=volume_24h_max,
+                                circulating_supply_min=circulating_supply_min,
+                                circulating_supply_max=circulating_supply_max,
+                                percent_change_24h_min=percent_change_24h_min,
+                                percent_change_24h_max=percent_change_24h_max,
+                                convert=convert,
+                                convert_id=convert_id,
+                                sort=sort,
+                                sort_dir=sort_dir,
+                                cryptocurrency_type=cryptocurrency_type,
+                                tag=tag,
+                                aux=aux
+                            )
+
+        return cryptocurrency.LatestListing(response)
 
 def start(api_key:str = TEST_KEY, version = "v1"):
     api_key = str(api_key)
@@ -127,3 +172,5 @@ def getWrapper():
     if __wrapper.wrapper:
         return __wrapper.wrapper
     raise NoWrapperYet()
+
+print(start().getCryptLatestListing())

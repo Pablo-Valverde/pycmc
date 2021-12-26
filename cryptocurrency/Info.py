@@ -2,7 +2,7 @@ from typing import Iterator, SupportsIndex
 import response
 
 
-class crypInfo(response.response):
+class Info(response.response):
 
     def __init__(self, resp) -> None:
         super().__init__(resp)

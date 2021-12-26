@@ -6,7 +6,7 @@ class InvalidKey(Exception):
     def __init__(self, *args: object) -> None:
         super().__init__(*args)
 
-class KeyInfo(response.response):
+class Info(response.response):
 
     def __init__(self, resp) -> None:
         super().__init__(resp)
