@@ -7,8 +7,26 @@ COINMARKETCAP_MAIN_SERVER = "https://pro-api.coinmarketcap.com/"
 COINMARKETCAP_TEST_SERVER = "https://sandbox-api.coinmarketcap.com/"
 TEST_KEY = "b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c" #---- Sandbox key for coinmarketcap test API ----#
 
-SORT_BY_ID = "id"
-SORT_BY_CMC_RANK = "cmc_rank"
+MAP_SORT_BY_ID = "id"
+MAP_SORT_BY_CMC_RANK = "cmc_rank"
+
+LISTING_SORT_BY_MARKET_CAP = "market_cap"
+LISTING_SORT_BY_MARKET_CAP_STRICT = "market_cap_strict"
+LISTING_SORT_BY_NAME = "name"
+LISTING_SORT_BY_SYMBOL = "symbol"
+LISTING_SORT_BY_DATE_ADDED = "date_added"
+LISTING_SORT_BY_PRICE = "price"
+LISTING_SORT_BY_CIRCULATING_SUPPLY = "circulating_supply"
+LISTING_SORT_BY_TOTAL_SUPPLY = "total_supply"
+LISTING_SORT_BY_MAX_SUPPLY = "max_supply"
+LISTING_SORT_BY_NUM_MARKET_PAIRS = "num_market_pairs"
+LISTING_SORT_BY_MARKET_CAP_BY_TOTAL_SUPPLY_STRICT = "market_cap_by_total_supply_strict"
+LISTING_SORT_BY_VOLUME_24H = "volume_24h"
+LISTING_SORT_BY_VOLUME_7D = "volume_7d"
+LISTING_SORT_BY_VOLUME_30D = "volume_30d"
+LISTING_SORT_BY_PERCENT_CHANGE_1H = "percent_change_1h"
+LISTING_SORT_BY_PERCENT_CHANGE_24H = "percent_change_24h"
+LISTING_SORT_BY_PERCENT_CHANGE_7D = "percent_change_7d"
 
 SORT_DIR_ASC = "asc"
 SORT_DIR_DESC = "desc"
@@ -55,7 +73,7 @@ class __wrapper:
 
     def getCryptoMap(
                         self, listing_status = LISTING_STATUS_ACTIVE, start = 1, limit = None, 
-                        sort = SORT_BY_ID, symbol = None, aux = "platform,first_historical_data,last_historical_data,is_active"
+                        sort = MAP_SORT_BY_ID, symbol = None, aux = "platform,first_historical_data,last_historical_data,is_active"
                     ):
 
         response = self.__get("/cryptocurrency/map", listing_status = listing_status, start = start, limit = limit, sort = sort, symbol = symbol, aux = aux)
@@ -91,7 +109,7 @@ class __wrapper:
                                 percent_change_24h_max = None, 
                                 convert = None, 
                                 convert_id = None, 
-                                sort, 
+                                sort = LISTING_SORT_BY_MARKET_CAP, 
                                 sort_dir = SORT_DIR_ASC, 
                                 cryptocurrency_type = CRYPTOCURRENCY_TYPE_ALL, 
                                 tag = TAG_ALL, 
