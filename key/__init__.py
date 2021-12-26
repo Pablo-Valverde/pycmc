@@ -1,1 +1,1 @@
-from key import Info
+from key.Info import Info
