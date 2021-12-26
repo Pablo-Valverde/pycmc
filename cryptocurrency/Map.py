@@ -2,7 +2,7 @@ import response
 from typing import Iterator, SupportsIndex
 
 
-class crypMap(response.response):
+class Map(response.response):
 
     def __init__(self, resp) -> None:
         super().__init__(resp)
@@ -27,7 +27,7 @@ class _crypto:
 class _data:
 
     def __init__(self, data_dict:dict) -> None:
-        self.cryptocurrencies = [_crypto(data_dict[cryptoData]) for cryptoData in data_dict]
+        self.cryptocurrencies = [_crypto(cryptoData) for cryptoData in data_dict]
 
     def __getitem__(self, __i: SupportsIndex) -> _crypto:
         return self.cryptocurrencies[__i]
