@@ -14,8 +14,11 @@ def _new_class(__name, __C):
 
 class _decorator:
 
+    def __init__(self) -> None:
+        pass
+
     @abstractmethod
-    def iterate(self, iterable):
+    def _iterate(self, iterable):
         pass     
 
 class _list(_decorator, list):
@@ -23,12 +26,12 @@ class _list(_decorator, list):
     def __init__(self) -> None:
         super().__init__()
 
-    def iterate(self, iterable):
+    def _iterate(self, iterable):
         for item in iterable:
             value = item
             if type(item) == dict:
                 value = _new_class("list_item", _dict)
-                value.iterate(item)
+                value._iterate(item)
             self.append(value)
 
 class _dict(_decorator):
@@ -36,15 +39,15 @@ class _dict(_decorator):
     def __init__(self) -> None:
         pass
 
-    def iterate(self, iterable):
+    def _iterate(self, iterable):
         for key in iterable:
             value = iterable[key]
             if type(iterable[key]) == dict:
                 value = _new_class(key, _dict)
-                value.iterate(iterable[key])
+                value._iterate(iterable[key])
             elif type(iterable[key]) == list:
                 value = _list()
-                value.iterate(iterable[key])
+                value._iterate(iterable[key])
             key = key if key.isidentifier() else "_" + key
             self.__setattr__(key, value)
 
@@ -53,7 +56,7 @@ class response(_dict):
     def __init__(self, resp) -> None:
         self.status = _status()
         self.__payload = json.loads(resp.text)
-        self.iterate(self.__payload)
+        self._iterate(self.__payload)
         self._response_http_code = resp.status_code
         self._request_successful = True if self._response_http_code == REQUEST_SUCCESS else False
 
