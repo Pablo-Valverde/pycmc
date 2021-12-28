@@ -41,12 +41,39 @@ after that you need to access an endpoint of that category. To know all availabl
 
 ![CMC API endpoints](/docs/cryptocurrenciesEndpoints.PNG)
 
-For example if you want to acess /cryptocurrency/listings/latest you would need to do:
+For example if you want to access /cryptocurrency/listings/latest you would need to do:
 
 ```
-  wrapper.cryptocurrency().listings_latest()
+  latest_listing = wrapper.cryptocurrency().listings_latest()
 ```
 
 It will return an object that contains all the information requested, the request does not have to be parsed by yourself.
 
 the object will follow the schema provided by coinmarketcap API documentation about the response information organization.
+
+For example the data returned when accessing /cryptocurrency/listings/latest will follow the next schema:
+
+![schema 1](/docs/schema1.PNG)
+
+where the returned object data can be accessed using:
+
+```
+  latest_listing.data
+```
+
+![schema 2](/docs/schema2.PNG)
+
+here we see that data atribute is an array of objects, so we can access those objects using python lists
+
+```
+  object_0 = latest_listing.data[0]
+```
+
+and as expected, those objects will have the above mentioned atributes
+
+```
+  id = object_0.id
+  name = object_0.name
+  symbol = object_0.symbol
+  slug = object_0.slug
+```
