@@ -91,7 +91,7 @@ class cryptAPI(_cmcBranch.cmcBranch):
         )
         return Info(response)._iterate()
 
-    def latest_listings(
+    def listings_latest(
         self,
         start = 1,
         limit = 100,
@@ -150,7 +150,7 @@ class cryptAPI(_cmcBranch.cmcBranch):
         )
         return LatestListing(response)._iterate()
 
-    def latest_quotes(
+    def quotes_latest(
         self,
         id =                                None,
         slug =                              None,
