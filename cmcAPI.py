@@ -1,5 +1,5 @@
 import json
-from cryptocurrency.LatestListing import _convert
+import exchange
 import key as k
 import cryptocurrency as crypt
 from requests import Session
@@ -9,13 +9,13 @@ COINMARKETCAP_MAIN_SERVER =                                                     
 COINMARKETCAP_TEST_SERVER =                                                     "https://sandbox-api.coinmarketcap.com/"
 TEST_KEY =                                                                      "b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c" #---- Sandbox key for coinmarketcap test API ----#
 
-REQUEST_SUCCESS = 200
-BAD_REQUEST = 400
-UNAUTHORIZED = 401
-FORBIDDEN = 403
-NOT_FOUND = 404
-TOO_MANY_REQUESTS = 429
-INTERNAL_SERVER_ERROR = 500
+REQUEST_SUCCESS =                                                                200
+BAD_REQUEST =                                                                    400
+UNAUTHORIZED =                                                                   401
+FORBIDDEN =                                                                      403
+NOT_FOUND =                                                                      404
+TOO_MANY_REQUESTS =                                                              429
+INTERNAL_SERVER_ERROR =                                                          500
 
 class NoWrapperYet(Exception):
     def __init__(self, *args: object) -> None:
@@ -39,6 +39,7 @@ class __wrapper:
 
         self.__key = k.keyAPI(self.__get)
         self.__cryptocurrency = crypt.cryptAPI(self.__get)
+        self.__exchange = exchange.exchangeAPI(self.__get)
 
     def __get(self, url, **kwargs) -> response:
         url = "{}{}{}".format(self.__main_url, self.version, url)
@@ -63,6 +64,9 @@ class __wrapper:
     def key(self) -> k.keyAPI:
         return self.__key
 
+    def exchange(self) -> exchange.exchangeAPI:
+        return self.__exchange
+
 def start(api_key:str = TEST_KEY, version = "v1") -> __wrapper:
     api_key = str(api_key)
     __wrapper.wrapper = __wrapper(api_key, version)
@@ -72,9 +76,3 @@ def getWrapper() -> __wrapper:
     if __wrapper.wrapper:
         return __wrapper.wrapper
     raise NoWrapperYet()
-
-cmc = start(api_key="d91bce4a-5a10-4b3c-b41f-1d9624c70f8f")
-#godz_quotes_USD = cmc.cryptocurrency().latest_quotes(id=14500).data[0]
-#godz_price = godz_quotes_USD.quote.USD.price
-category = cmc.cryptocurrency().category("61ada74c7828ce551835b031")
-pass

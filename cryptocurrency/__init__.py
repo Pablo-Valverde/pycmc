@@ -200,14 +200,14 @@ class cryptAPI(_cmcBranch.cmcBranch):
         limit =                             100,
         convert =                           None,
         convert_id =                        None
-    ):
+    ) -> Category:
 
         response = self._get (
-            url = "/cryptocurrency/categories",
+            url = "/cryptocurrency/category",
             id = id,
             start = start,
             limit = limit,
             convert = convert,
             convert_id = convert_id
         )
-        return Category(response)._ite
+        return Category(response)._iterate()
