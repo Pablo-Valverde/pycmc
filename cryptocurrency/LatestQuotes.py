@@ -2,11 +2,27 @@ from typing import SupportsIndex
 import response
 
 
-class LatestListing(response.response):
+class LatestQuotes(response.response):
 
     def __init__(self, resp) -> None:
         self.data = _data()
         super().__init__(resp)
+
+    def _iterate(self):
+        currencies = self._iterator.pop("data")
+        new_data = []
+        for currency in currencies:
+            new_data.append(currencies[currency])
+        self._iterator["data"] = new_data
+        return super()._iterate()
+
+class _platform:
+
+    id = None
+    name = None
+    symbol = None
+    slug = None
+    token_address = None
 
 class _convert:
 
@@ -30,31 +46,25 @@ class _quote:
 
     USD = _convert()
 
-class _platform:
-
-    id = None
-    name = None
-    symbol = None
-    slug = None
-    token_address = None
-
 class _crypto:
 
     id = None
     name = None
     symbol = None
     slug = None
+    is_active = None
+    is_fiat = None
     cmc_rank = None
-    num_market_pairs = None
+    cmc_rank = None
     circulating_supply = None
     total_supply = None
     market_cap_by_total_supply = None
     max_supply = None
-    last_updated = None
     date_added = None
     tags = None
     platform = _platform()
-    quote = _quote()
+    last_updated = None
+    quote = _quote() 
 
 class _data(list):
 

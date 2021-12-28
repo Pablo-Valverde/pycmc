@@ -1,4 +1,3 @@
-from typing import Iterator, SupportsIndex
 import response
 
 
@@ -7,48 +6,55 @@ class Info(response.response):
     def __init__(self, resp) -> None:
         self.data = _data()
         super().__init__(resp)
-        if not self._request_successful:
-            raise RuntimeError(self.status.error_message)
 
-class _crypto:
-
-    def __init__(self) -> None:
-        self.id = None
-        self.name = None
-        self.symbol = None
-        self.category = None
-        self.slug = None
-        self.logo = None
-        self.description = None
-        self.date_added = None
-        self.notice = None
-        self.tags = None
-        self.platform = _platform()
-        self.urls = _urls()
-
-class _data:
-
-    def __init__(self) -> None:
-        self.crypto_id_slug_symbol_address = _crypto()
+    def _iterate(self):
+        currencies = self._iterator.pop("data")
+        new_data = []
+        for currency in currencies:
+            new_data.append(currencies[currency])
+        self._iterator["data"] = new_data
+        return super()._iterate()
 
 class _platform:
 
-    def __init__(self) -> None:
-        self.id = None
-        self.name = None
-        self.symbol = None
-        self.slug = None
-        self.token_address = None
+    id = None
+    name = None
+    symbol = None
+    slug = None
+    token_address = None
+
 
 class _urls:
 
-    def __init__(self) -> None:
-        self.website = None
-        self.technical_doc = None
-        self.explorer = None
-        self.source_code = None
-        self.message_board = None
-        self.chat = None
-        self.announcement = None
-        self.reddit = None
-        self.twitter = None
+    website = None
+    technical_doc = None
+    explorer = None
+    source_code = None
+    message_board = None
+    chat = None
+    announcement = None
+    reddit = None
+    twitter = None
+
+class _crypto:
+
+    id = None
+    name = None
+    symbol = None
+    category = None
+    slug = None
+    logo = None
+    description = None
+    date_added = None
+    notice = None
+    tags = None
+    platform = _platform()
+    urls = _urls()
+
+class _data(list):
+
+    def __getitem__(self, index) -> _crypto:
+        return _crypto()
+
+    def pop(self, __index) -> _crypto:
+        return _crypto()

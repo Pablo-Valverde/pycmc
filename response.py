@@ -1,70 +1,58 @@
 from abc import abstractmethod
-import json
 
-REQUEST_SUCCESS = 200
-BAD_REQUEST = 400
-UNAUTHORIZED = 401
-FORBIDDEN = 403
-NOT_FOUND = 404
-TOO_MANY_REQUESTS = 429
-INTERNAL_SERVER_ERROR = 500
 
-def _new_class(__name, __C):
-    return type("_" + __name, (__C, ), {})()
+CUSTOM_NAME = "_cmcObject"
 
 class _decorator:
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, iterator) -> None:
+        self._iterator = iterator
 
     @abstractmethod
-    def _iterate(self, iterable):
+    def _iterate(self):
         pass     
 
-class _list(_decorator, list):
+class _list(_decorator):
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, iterator) -> None:
+        super().__init__(iterator)
 
-    def _iterate(self, iterable):
-        for item in iterable:
+    def _iterate(self):
+        atributes = []
+        for item in self._iterator:
             value = item
-            if type(item) == dict:
-                value = _new_class("list_item", _dict)
-                value._iterate(item)
-            self.append(value)
+            if type(value) == dict:
+                value = _dict(value)._iterate()
+            atributes.append(value)
+        return atributes
 
 class _dict(_decorator):
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, iterator) -> None:
+        super().__init__(iterator)
 
-    def _iterate(self, iterable):
-        for key in iterable:
-            value = iterable[key]
-            if type(iterable[key]) == dict:
-                value = _new_class(key, _dict)
-                value._iterate(iterable[key])
-            elif type(iterable[key]) == list:
-                value = _list()
-                value._iterate(iterable[key])
+    def _iterate(self):
+        atributes = {}
+        for key in self._iterator:
+            value = self._iterator[key]
+            if type(value) == dict:
+                value = _dict(value)._iterate()
+            elif type(value) == list:
+                value = _list(value)._iterate()
             key = key if key.isidentifier() else "_" + key
-            self.__setattr__(key, value)
+            atributes[key] = value
+        return type(CUSTOM_NAME, (), atributes)
 
 class response(_dict):
 
-    def __init__(self, resp) -> None:
+    def __init__(self, response_text) -> None:
         self.status = _status()
-        self.__payload = json.loads(resp.text)
-        self._iterate(self.__payload)
-        self._response_http_code = resp.status_code
-        self._request_successful = True if self._response_http_code == REQUEST_SUCCESS else False
+        super().__init__(response_text)
 
 class _status:
 
-    def __init__(self) -> None:
-        self.timestamp = None
-        self.error_code = None
-        self.error_message = None
-        self.elapsed = None
-        self.credit_count = None
+    timestamp = None
+    error_code = None
+    error_message = None
+    elapsed = None
+    credit_count = None

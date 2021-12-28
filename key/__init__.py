@@ -13,4 +13,4 @@ class keyAPI(_cmcBranch.cmcBranch):
         response = self._get (
             url = "/key/info"
         )
-        return Info(response)
+        return Info(response)._iterate()
