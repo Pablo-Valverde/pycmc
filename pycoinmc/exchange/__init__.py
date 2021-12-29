@@ -1,4 +1,4 @@
-import _cmcBranch
+from . import _cmcBranch
 
 class exchangeAPI(_cmcBranch.cmcBranch):
 
