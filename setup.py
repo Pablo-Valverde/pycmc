@@ -3,8 +3,7 @@ from setuptools import setup, find_packages
 with open("README.md", "r") as readme_file:
     readme = readme_file.read()
 
-requirements = ["requests>=2.0"]
-packages = ["https://github.com/Pablo-Valverde/pycoinmc"]
+requirements = ["requests>=2.0", "pycoinmc"]
 
 setup(
     name="pycoinmc",
@@ -15,7 +14,7 @@ setup(
     long_description=readme,
     long_description_content_type="text/markdown",
     url="https://github.com/Pablo-Valverde/pycoinmc",
-    packages=packages,
+    packages=find_packages(),
     install_requires=requirements,
     classifiers=[
         "Programming Language :: Python :: 3.9.5",
