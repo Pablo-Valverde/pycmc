@@ -1,5 +1,5 @@
 import json
-import exchange
+from . import exchange
 import key as k
 import cryptocurrency as crypt
 from requests import Session
