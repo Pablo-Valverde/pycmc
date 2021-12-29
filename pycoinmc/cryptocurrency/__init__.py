@@ -1,4 +1,4 @@
-import _cmcBranch
+from .. import _cmcBranch
 from cryptocurrency.Categories import Categories
 from cryptocurrency.Info import Info
 from cryptocurrency.LatestListing import LatestListing
