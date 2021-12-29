@@ -1,4 +1,4 @@
-import response
+from .. import response
 
 
 class Categories(response.response):

@@ -1,5 +1,5 @@
 from typing import SupportsIndex
-import response
+from .. import response
 
 
 class LatestListing(response.response):

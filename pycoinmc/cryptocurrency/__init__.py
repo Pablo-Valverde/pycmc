@@ -1,11 +1,11 @@
 from .. import _cmcBranch
-from cryptocurrency.Categories import Categories
-from cryptocurrency.Info import Info
-from cryptocurrency.LatestListing import LatestListing
-from cryptocurrency.Map import Map
-from cryptocurrency.LatestQuotes import LatestQuotes
-from cryptocurrency.Category import Category
-from response import response as cmcresponse
+from .Categories import Categories
+from .Info import Info
+from .LatestListing import LatestListing
+from .Map import Map
+from .LatestQuotes import LatestQuotes
+from .Category import Category
+
 
 MAP_SORT_BY_ID =                                                                "id"
 MAP_SORT_BY_CMC_RANK =                                                          "cmc_rank"
