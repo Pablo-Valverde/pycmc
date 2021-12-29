@@ -12,15 +12,21 @@ Install the package using pip:
   pip install git+https://github.com/Pablo-Valverde/pycoinmc.git
 `
 
+Import the package:
+
+```
+  import pycoinmc
+```
+
 Create a new wrapper with:
 
 ```
-  wrapper = start(api_key = YOUR_CMC_API_KEY)
+  wrapper = pycoinmc.start(api_key = YOUR_CMC_API_KEY)
 ```
 or if you want to use the sandbox enviroment:
 
 ```
-  wrapper = start()
+  wrapper = pycoinmc.start()
 ```
 
 now you must take into account which API category you want to reach:
