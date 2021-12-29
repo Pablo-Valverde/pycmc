@@ -1,9 +1,9 @@
 import json
 from . import exchange
-import key as k
-import cryptocurrency as crypt
+from . import key as k
+from . import cryptocurrency as crypt
 from requests import Session
-from response import response
+from .response import response
 
 COINMARKETCAP_MAIN_SERVER =                                                     "https://pro-api.coinmarketcap.com/"
 COINMARKETCAP_TEST_SERVER =                                                     "https://sandbox-api.coinmarketcap.com/"
