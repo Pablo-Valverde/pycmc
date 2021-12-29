@@ -4,7 +4,7 @@
 
 Coinmarketcap unofficial API wrapper, it can be used to easly create python applications that needs to contact with the API.
 
-## How to use pycmc
+## How to use
 
 Create a new wrapper with:
 
