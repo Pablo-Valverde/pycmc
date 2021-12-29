@@ -1,5 +1,5 @@
-import _cmcBranch
-from key.Info import Info
+from .. import _cmcBranch
+from .Info import Info
 
 class keyAPI(_cmcBranch.cmcBranch):
 
