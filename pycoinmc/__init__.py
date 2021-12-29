@@ -1,4 +1,3 @@
-import pyc
 import json
 import exchange
 import key as k
