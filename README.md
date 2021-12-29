@@ -6,6 +6,12 @@ Coinmarketcap unofficial API wrapper, it can be used to easly create python appl
 
 ## How to use
 
+Install the package using pip:
+
+` 
+  pip install git+https://github.com/Pablo-Valverde/pycoinmc.git
+`
+
 Create a new wrapper with:
 
 ```
