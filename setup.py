@@ -4,7 +4,7 @@ with open("README.md", "r") as readme_file:
     readme = readme_file.read()
 
 requirements = ["requests>=2.0"]
-packages = ["pycoinmc"]
+packages = ["https://github.com/Pablo-Valverde/pycoinmc"]
 
 setup(
     name="pycoinmc",
