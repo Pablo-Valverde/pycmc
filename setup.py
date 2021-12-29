@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 with open("README.md", "r") as readme_file:
     readme = readme_file.read()
 
-requirements = ["requests>=3.0"]
+requirements = ["requests>=2.0", "pycoinmc"]
 
 setup(
     name="pycoinmc",
