@@ -5,7 +5,6 @@ from . import cryptocurrency as crypt
 from requests import Session
 from .response import response
 
-
 COINMARKETCAP_MAIN_SERVER =                                                     "https://pro-api.coinmarketcap.com/"
 COINMARKETCAP_TEST_SERVER =                                                     "https://sandbox-api.coinmarketcap.com/"
 TEST_KEY =                                                                      "b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c" #---- Sandbox key for coinmarketcap test API ----#
