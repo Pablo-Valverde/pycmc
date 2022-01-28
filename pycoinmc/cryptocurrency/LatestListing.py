@@ -2,6 +2,7 @@ from typing import SupportsIndex
 from .. import response
 
 
+
 class LatestListing(response.response):
 
     def __init__(self, resp) -> None:
